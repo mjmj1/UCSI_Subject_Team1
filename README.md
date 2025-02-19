@@ -1,6 +1,7 @@
 # UCSI_Subject_Team1
 
 # 🚀🚀엄청나게 쉬운 서버 실행 방법 !!
+window의 경우, git bash를 사용하면 됩니다.
 ### 1. 폴더 위치를 back으로 설정
 cd 커맨드를 통해 폴더 위치를 back에 위치시킵니다.
 

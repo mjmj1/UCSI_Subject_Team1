@@ -58,3 +58,9 @@ python manage.py runserver
 ```
 6번 항목의 명령어를 실행해주면 서버가 실행됩니다.
 서버를 실행한 땐 꼭 docker가 실행되어 있어야 합니다.
+
+### etc2. docker 내의 DB에 DML을 사용하는 방법 !!! 🚀🚀
+```
+docker exec -it back-db-1 psql -U postgres -d project_db
+```
+위에 코드를 사용하면 docker 내 db에 접근하여 DML(select, update, delete, insert ...) 를 사용할 수 있습니다.

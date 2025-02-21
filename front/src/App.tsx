@@ -1,11 +1,13 @@
-import React, { useRef } from "react";
-// import TimeTable from "./components/TimeTable";
+import TimeTable from "./components/TimeTable";
+import Calendar from "./components/Calendar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
+import {useRef} from "react";
 
-const App: React.FC = () => {
+const App = () => {
     const timetableRef = useRef<HTMLDivElement | null>(null);
+    const calendarRef = useRef<HTMLDivElement | null>(null);
 
     const scrollToTimeTable = () => {
         if (timetableRef.current) {
@@ -13,11 +15,22 @@ const App: React.FC = () => {
         }
     };
 
+    const scrollToCalendar = () => {
+        if (calendarRef.current) {
+            calendarRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <div className="app-container">
-            <Header scrollToTimeTable={scrollToTimeTable} />
+            <Header scrollToTimeTable={scrollToTimeTable} scrollToCalendar={scrollToCalendar} />
             <main className="main-content">
-                {/*<TimeTable ref={timetableRef} />*/}
+                <div ref={timetableRef}>
+                    <TimeTable />
+                </div>
+                <div ref={calendarRef}>
+                    <Calendar />
+                </div>
             </main>
             <Footer />
         </div>

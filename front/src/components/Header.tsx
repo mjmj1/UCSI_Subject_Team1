@@ -1,11 +1,12 @@
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaTable } from "react-icons/fa";
 import "./Header.css";
 
 interface HeaderProps {
     scrollToTimeTable: () => void;
+    scrollToCalendar: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ scrollToTimeTable }) => {
+const Header: React.FC<HeaderProps> = ({ scrollToTimeTable, scrollToCalendar }) => {
     return (
         <header className="header">
             <div className="header-left">
@@ -13,12 +14,18 @@ const Header: React.FC<HeaderProps> = ({ scrollToTimeTable }) => {
                 <img src="/assets/qs_world_ranking_2025.png" alt="QS World Ranking 2025" className="header-ranking" />
             </div>
 
-
             <nav className="header-right">
                 <button className="header-link" onClick={scrollToTimeTable}>
-                    <FaRegCalendarAlt className="header-icon" />
+                    <FaTable className="timetable-icon" />
                     <div className="header-text">
-                        <span className="header-line"></span> Class Schedule <span className="header-line"></span>
+                        <span className="header-line"></span> TimeTable <span className="header-line"></span>
+                    </div>
+                </button>
+
+                <button className="header-link" onClick={scrollToCalendar}>
+                    <FaRegCalendarAlt className="calendar-icon" />
+                    <div className="header-text">
+                        <span className="header-line"></span> Calendar <span className="header-line"></span>
                     </div>
                 </button>
             </nav>

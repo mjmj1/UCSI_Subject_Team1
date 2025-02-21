@@ -12,13 +12,13 @@ const TimeTable = forwardRef<HTMLDivElement, object>((_, ref) => {
 
     return (
         <div ref={ref} className="timetable-container">
-            <h2 className="timetable-title">Class Schedule</h2>
+            <h2 className="timetable-title">Time Table</h2>
             <table className="timetable-table">
                 <thead>
                 <tr>
-                    <th>시간</th>
-                    <th>수업명</th>
-                    <th>강의실</th>
+                    <th>time</th>
+                    <th>lecture</th>
+                    <th>classroom</th>
                 </tr>
                 </thead>
                 <tbody>

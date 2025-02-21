@@ -24,11 +24,14 @@
     max-width: 100%;
 }
 
+
+
 .header-right {
     display: flex;
     align-items: center;
     margin-left: auto;
 }
+
 
 .header-link {
     display: flex;
@@ -39,34 +42,46 @@
     cursor: pointer;
     padding: 10px 15px;
     text-decoration: none;
-    transition: color 0.3s ease;
-    font-size: 16px;
-    font-weight: 100;
-    color: #1a1a1a;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    font-size: 14px;
+    font-weight: 500;
+    color: #d55c5a;
+    position: relative;
 }
 
-.header-icon {
-    font-size: 22px;
-    color: #d55c5a;
+.timetable-icon, .calendar-icon {
+    font-size: 18px;
     margin-bottom: 8px;
+    color: #d55c5a;
     transition: color 0.3s ease-in-out;
 }
 
 .header-text {
-    color: #d55c5a;
     display: flex;
     align-items: center;
     gap: 10px;
+    color: #d55c5a;
     transition: color 0.3s ease-in-out;
+}
+
+.header-link:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    width: 2px;
+    background-color: #d55c5a;
 }
 
 .header-link:hover {
     background-color: #d55c5a;
-    color: #ffffff;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 }
 
-.header-link:hover .header-icon,
+.header-link:hover .timetable-icon,
+.header-link:hover .calendar-icon,
 .header-link:hover .header-text {
     color: #ffffff;
 }

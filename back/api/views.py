@@ -4,8 +4,18 @@ import pandas as pd
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from api.util.dataImporter import import_excel_to_db
+
+
 def home(request):
     return HttpResponse("Hello, Django! This is the home page.")
+
+def import_data(request):
+    if request.method == 'GET':
+        import_excel_to_db()
+        return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
+    return JsonResponse({"error": "GET 요청만 허용됩니다."}, status=400)
+
 
 @csrf_exempt
 def upload_excel(request):

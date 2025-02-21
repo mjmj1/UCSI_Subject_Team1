@@ -27,7 +27,7 @@ class ChildCourceOffer(models.Model):
 
 class ResourceRoom(models.Model):
     id = models.AutoField(primary_key=True)
-    resource_code = models.CharField(max_length=50)
+    resource_code = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
     capacity = models.IntegerField()
     lecture = models.CharField(max_length=1)

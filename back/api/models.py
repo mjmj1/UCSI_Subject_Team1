@@ -38,7 +38,7 @@ class ResourceRoom(models.Model):
     def __str__(self):
         return f"{self.resource_code} ({self.capacity})"
 
-    
+
 class AssignTable(models.Model):
     id = models.AutoField(primary_key=True)
     course_code = models.CharField(max_length=50)

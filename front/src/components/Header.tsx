@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"; // ✅ React Router 추가
 import { FaRegCalendarAlt, FaTable } from "react-icons/fa";
 import "./Header.css";
 
@@ -7,10 +8,22 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ scrollToTimeTable, scrollToCalendar }) => {
+    const navigate = useNavigate();
+
+    const goToHome = () => {
+        navigate("/");
+    };
+
     return (
         <header className="header">
             <div className="header-left">
-                <img src="/assets/ucsi_uni_logo.png" alt="UCSI University Logo" className="header-logo" />
+                <img
+                    src="/assets/ucsi_uni_logo.png"
+                    alt="UCSI University Logo"
+                    className="header-logo"
+                    onClick={goToHome}
+                    style={{ cursor: "pointer" }}
+                />
                 <img src="/assets/qs_world_ranking_2025.png" alt="QS World Ranking 2025" className="header-ranking" />
             </div>
 

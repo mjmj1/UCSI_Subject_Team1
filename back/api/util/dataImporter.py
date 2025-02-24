@@ -1,19 +1,18 @@
 import os
 import pandas as pd
 from django.conf import settings
-from django.core.management import call_command
 from api.models import ResourceRoom
 
 RESOURCEROOMPATH = 'CSD - Resource Room.xlsx'
 
 def import_excel_to_db():
 
-    file_path = os.path.join(settings.BASE_DIR, 'datas', RESOURCEROOMPATH)  # 엑셀 파일 경로 설정
+    file_path = os.path.join(settings.BASE_DIR, 'datas', RESOURCEROOMPATH)
     if not os.path.exists(file_path):
         print("파일이 존재하지 않습니다.")
         return
 
-    df = pd.read_excel(file_path)  # 엑셀 파일 읽기
+    df = pd.read_excel(file_path)
 
     df.fillna({
         'Lecture': 'N',

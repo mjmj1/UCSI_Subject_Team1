@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from api.util.dataImporter import import_excel_to_db
+from api.util.tables import make_course_tables
 
 
 def home(request):
@@ -13,6 +14,12 @@ def home(request):
 def import_data(request):
     if request.method == 'GET':
         import_excel_to_db()
+        return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
+    return JsonResponse({"error": "GET 요청만 허용됩니다."}, status=400)
+
+def make_tables(request):
+    if request.method == 'GET':
+        make_course_tables()
         return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
     return JsonResponse({"error": "GET 요청만 허용됩니다."}, status=400)
 

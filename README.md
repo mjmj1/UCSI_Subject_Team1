@@ -1,22 +1,19 @@
 # UCSI_Subject_Team1
 
 # 🚀🚀엄청나게 쉬운 서버 실행 방법 !!
-### 0. requirements.txt
-```
-pip install -r requirements.txt
-```
+
 
 window의 경우, git bash를 사용하면 됩니다.
-### 1. 폴더 위치를 back으로 설정
+### 0. 폴더 위치를 back으로 설정
 cd 커맨드를 통해 폴더 위치를 back에 위치시킵니다.
 
-### 2. 가상환경 생성 💻
+### 1. 가상환경 생성 💻
 ```
 python -m venv venv
 ```
 위 명령어를 cmd에서 실행하고 가상환경을 생성합니다.
 
-### 3. 가상 환경 실행
+### 2. 가상 환경 실행
 Mac/Linux
 ```
 source venv/bin/activate
@@ -26,6 +23,11 @@ window
 venv\Scripts\activate
 ```
 위 명령어를 cmd에서 실행하여 가상환경을 활성화합니다.
+
+### 3. 필요 패키지 다운로드
+```
+pip install -r requirements.txt
+```
 
 ### 4. Docker 실행 🐋
 ```

@@ -1,11 +1,10 @@
 import pandas as pd
 import os
 from django.conf import settings
-from .rows import add_exception_row, add_father_row, add_child_row
+from .rows import add_exception_row
 from ..models import FatherCourseOffer, ChildCourseOffer
 
 COURSEOFFERPATH = 'CSD - Course Offer.xlsx'
-
 
 def make_course_tables():
     file_path = os.path.join(settings.BASE_DIR, 'datas', COURSEOFFERPATH)
@@ -17,13 +16,9 @@ def make_course_tables():
 
     df = df.drop(df.tail(1).index).drop(columns=['Unnamed: 0'])
 
-    print(df.shape)
-
     df = add_check_code(df)
     df = del_only_combined_to(df)
     df = del_self_reference(df)
-
-    print(df.shape)
 
     make_family_tables(df)
 
@@ -105,7 +100,7 @@ def separate_table(df):
     child_list = []
 
     for index, row in df.iterrows():
-        if (row['check_code'] == None):
+        if row['check_code'] is None:
             father_list.append(row)
         else:
             child_list.append(row)
@@ -135,7 +130,6 @@ def check_child_code(child_df):
 
     return child_df
 
-
 def check_exception_df(child_df):
     drop_list = []
 
@@ -148,8 +142,6 @@ def check_exception_df(child_df):
 
     return child_df
 
-
-# CourseType, FatherCode 생성 함수
 def make_courseType_fatherCode(df):
     mapping = {
         'Lecture': 'Le',

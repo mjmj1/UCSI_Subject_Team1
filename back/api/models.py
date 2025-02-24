@@ -42,6 +42,11 @@ class ResourceRoom(models.Model):
     Lecture = models.CharField(max_length=1)
     Tutorial = models.CharField(max_length=1)
     Lab = models.CharField(max_length=1)
+    Group = models.CharField(max_length=1)
+    Clinic = models.CharField(max_length=1)
+    PBL = models.CharField(max_length=1)
+    Kitchen = models.CharField(max_length=1)
+    Drawing = models.CharField(max_length=1)
     Imus = models.CharField(max_length=10)
 
     def __str__(self):

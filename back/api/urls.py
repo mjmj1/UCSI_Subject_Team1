@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import upload_excel, import_data, make_tables
+from api import views
 
 urlpatterns = [
-    path("import/", import_data, name="import_data"),
-    path("tables/", make_tables, name="make_tables"),
-    path("upload-excel/", upload_excel, name="upload_excel"),
+    # path("/faculty/", views.get_faculty_code, name="get_faculty_code"),
+    # path("/course/", views.get_course_code, name="get_course_code"),
+    path("table/data/course/import/", views.make_course, name="make_course"),
+    path("table/data/resource/import/", views.make_resource, name="make_resource"),
+    path("table/view/", views.get_assign_table, name="get_assign_table"),
+    path("courseoffer/view/", views.get_father_course_offer, name="get_father_course_offer"),
 ]

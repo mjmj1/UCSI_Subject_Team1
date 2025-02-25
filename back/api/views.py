@@ -1,56 +1,53 @@
 from django.shortcuts import render
 
-import pandas as pd
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
-from api.util.dataImporter import import_excel_to_db
-from api.util.tables import make_course_tables
+from api.util.resourceRoom import make_resource_table
+from api.util.courseOffer import make_course_tables
+
+from api.models import AssignTable, FatherCourseOffer
 
 
-def home(request):
-    return HttpResponse("Hello, Django! This is the home page.")
-
-def import_data(request):
+def make_resource(request):
     if request.method == 'GET':
-        import_excel_to_db()
+        make_resource_table()
         return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
     return JsonResponse({"error": "GET 요청만 허용됩니다."}, status=400)
 
-def make_tables(request):
+
+def make_course(request):
     if request.method == 'GET':
         make_course_tables()
         return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
     return JsonResponse({"error": "GET 요청만 허용됩니다."}, status=400)
 
+# def connect_db():
+#     load_dotenv()
+#
+#     conn = psycopg2.connect(
+#         dbname=os.getenv('DB_NAME'),
+#         user=os.getenv('DB_USER'),
+#         password=os.getenv('DB_PASSWORD'),
+#         host=os.getenv('DB_HOST', 'localhost'),
+#         port=os.getenv('DB_PORT', '5432'),
+#     )
+#
+#     return conn
 
-@csrf_exempt
-def upload_excel(request):
-    if request.method == "POST" and request.FILES.get("file"):
-        excel_file = request.FILES["file"]
+def get_assign_table(request):
+    code = request.GET.get('facultyCode', None)
 
-        try:
-            # 파일 저장 (선택 사항)
-            # fs = FileSystemStorage()
-            # filename = fs.save(excel_file.name, excel_file)
-            # file_path = fs.path(filename)
+    if code is None:
+        return JsonResponse("")
 
-            # Pandas로 Excel 데이터 읽기
-            df = pd.read_excel(excel_file)
+    filtered_data = AssignTable.objects.filter(FacultyCode=code)
+    return JsonResponse(list(filtered_data.values()), safe=False)
 
-            print(df.head())
-            
-            # 데이터프레임을 Django ORM을 사용해 PostgreSQL에 저장
-            # for _, row in df.iterrows():
-            #     Employee.objects.create(
-            #         name=row["Name"], 
-            #         age=row["Age"], 
-            #         department=row["Department"]
-            #     )
+def get_father_course_offer(request):
+    code = request.GET.get('facultyCode', None)
 
-            return JsonResponse({"message": "데이터 저장 성공!"}, status=200)
+    if code is None:
+        return JsonResponse("")
 
-        except Exception as e:
-            return JsonResponse({"error": f"파일 처리 중 오류 발생: {str(e)}"}, status=400)
-
-    return JsonResponse({"error": "파일이 없거나 POST 요청이 아닙니다."}, status=400)
+    filtered_data = FatherCourseOffer.objects.filter(FacultyCode=code)
+    return JsonResponse(list(filtered_data.values()), safe=False)

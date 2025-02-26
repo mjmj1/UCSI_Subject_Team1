@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom"; // ✅ React Router 추가
-import { FaRegCalendarAlt, FaTable } from "react-icons/fa";
+import { FaTable } from "react-icons/fa";
 import "./Header.css";
 
 interface HeaderProps {
     scrollToTimeTable: () => void;
-    scrollToCalendar: () => void;
+    // scrollToCalendar: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ scrollToTimeTable, scrollToCalendar }) => {
+const Header: React.FC<HeaderProps> = ({ scrollToTimeTable }) => {
     const navigate = useNavigate();
 
     const goToHome = () => {
@@ -35,12 +35,12 @@ const Header: React.FC<HeaderProps> = ({ scrollToTimeTable, scrollToCalendar }) 
                     </div>
                 </button>
 
-                <button className="header-link" onClick={scrollToCalendar}>
-                    <FaRegCalendarAlt className="calendar-icon" />
-                    <div className="header-text">
-                        <span className="header-line"></span> Calendar <span className="header-line"></span>
-                    </div>
-                </button>
+                {/*<button className="header-link" onClick={scrollToCalendar}>*/}
+                {/*    <FaRegCalendarAlt className="calendar-icon" />*/}
+                {/*    <div className="header-text">*/}
+                {/*        <span className="header-line"></span> Calendar <span className="header-line"></span>*/}
+                {/*    </div>*/}
+                {/*</button>*/}
             </nav>
         </header>
     );

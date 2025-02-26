@@ -1,40 +1,49 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import useFetchSchedule from "../hooks/useFetchSchedule";
+import { ScheduleItem } from "../api/scheduleApi";
 import "../components/TimeTable.css";
 
-const categories: Record<string, string[]> = {
-    "Design": ["UI/UX", "Graphic Design"],
-    "Computer Science": ["AI", "Web Development", "Cyber Security"],
-    "Engineering": ["Mechanical", "Electrical", "Civil"],
-    "Business": ["Marketing", "Finance", "Entrepreneurship"]
-};
-
-const allSubCategories = Object.values(categories).flat();
-const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
-const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-
-const classData = [
-    { id: 1, category: "UI/UX", className: "UI/UX Basics", location: "Room 101", day: "Mon", time: "09:00" },
-    { id: 2, category: "AI", className: "Machine Learning", location: "Room 202", day: "Mon", time: "09:00" },
-    { id: 3, category: "Mechanical", className: "Thermodynamics", location: "Room 303", day: "Wed", time: "11:00" },
-    { id: 4, category: "Marketing", className: "Marketing 101", location: "Room 404", day: "Thu", time: "13:00" },
-    { id: 5, category: "Web Development", className: "React Basics", location: "Room 505", day: "Fri", time: "14:00" },
-    { id: 6, category: "Graphic Design", className: "Photoshop Mastery", location: "Room 102", day: "Mon", time: "09:00" },
-    { id: 7, category: "Cyber Security", className: "Ethical Hacking", location: "Room 606", day: "Wed", time: "16:00" },
-    { id: 8, category: "Finance", className: "Investment Strategies", location: "Room 707", day: "Thu", time: "17:00" }
-];
-
 const TimeTable = () => {
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(allSubCategories); // ✅ 기본값: 전체 선택
-    const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+    const { schedule, loading, error } = useFetchSchedule();
 
-    const handleSubCategoryChange = (subCategory: string) => {
-        setSelectedCategories((prev) =>
-            prev.includes(subCategory) ? prev.filter((c) => c !== subCategory) : [...prev, subCategory]
+    // ✅ 첫 번째 카테고리 (Faculty)
+    const faculties = [
+        "CFL", "FAS", "FBM", "FETBE", "FHTM", "FOMHS", "FOSSLA",
+        "FPS", "IASDA", "ICAD", "ICSDI", "SABE"
+    ];
+    const [selectedFaculty, setSelectedFaculty] = useState<string | null>(null);
+    const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
+    const [facultyDropdownOpen, setFacultyDropdownOpen] = useState(false);
+    const [coursesDropdownOpen, setCoursesDropdownOpen] = useState(false);
+
+    const handleFacultyChange = (faculty: string) => {
+        setSelectedFaculty(faculty);
+        setSelectedCourses([]);
+        setFacultyDropdownOpen(false);
+        setCoursesDropdownOpen(true);
+    };
+
+    // ✅ 두 번째 카테고리 (선택한 Faculty에 해당하는 CourseCode만 표시)
+    const courses = useMemo(() => {
+        if (!selectedFaculty) return [];
+        return schedule
+            .filter(({ facultyCode }) => facultyCode === selectedFaculty)
+            .map(({ courseCode }) => courseCode)
+            .filter((value, index, self) => self.indexOf(value) === index);
+    }, [selectedFaculty, schedule]);
+
+    const handleCourseChange = (course: string) => {
+        setSelectedCourses((prev) =>
+            prev.includes(course) ? prev.filter((c) => c !== course) : [...prev, course]
         );
     };
 
+    // ✅ 타임테이블 매핑 (요일이 가로, 시간이 세로)
+    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const timeSlots = Array.from({ length: 14 }, (_, i) => `${9 + i}:00`.padStart(5, "0"));
 
-    const timetableMap: Record<string, Record<string, { className: string; location: string }[]>> = {};
+    const timetableMap: Record<string, Record<string, ScheduleItem[]>> = {};
+
     daysOfWeek.forEach(day => {
         timetableMap[day] = {};
         timeSlots.forEach(time => {
@@ -42,45 +51,77 @@ const TimeTable = () => {
         });
     });
 
-    classData.filter(item => selectedCategories.includes(item.category)).forEach(item => {
-        const { day, time, className, location } = item;
-        timetableMap[day][time].push({ className, location });
-    });
+    // ✅ 선택한 Course에 해당하는 강의만 타임테이블에 추가 (시간 반영)
+    schedule
+        .filter(({ courseCode }) => selectedCourses.includes(courseCode))
+        .forEach(item => {
+            const day = item.dayOfWeek;
+            const startTime = item.startTime;
+            const duration = item.minPerSession; // 🔥 이미 시간 단위라 바로 사용하면 됨!
+
+            const startIndex = timeSlots.indexOf(startTime);
+            if (startIndex !== -1) {
+                for (let i = 0; i < duration; i++) {
+                    const timeSlot = timeSlots[startIndex + i];
+                    if (timeSlot && timetableMap[day][timeSlot]) {
+                        timetableMap[day][timeSlot].push(item);
+                    }
+                }
+            }
+        });
 
     return (
         <div className="timetable-container">
             <h2>Timetable</h2>
 
-            <div className="category-filter">
-                {Object.keys(categories).map((category) => (
-                    <div
-                        key={category}
-                        className="category-group"
-                        onMouseEnter={() => setHoveredCategory(category)}
-                        onMouseLeave={() => setHoveredCategory(null)}
-                    >
-                        <div className="category-title">
-                            {category} {hoveredCategory === category ? "▲" : "▼"}
-                        </div>
-                        <div
-                            className={`subcategory-list ${hoveredCategory === category ? "show" : ""}`}
-                        >
-                            {categories[category].map((subCategory) => (
-                                <label key={subCategory} className="category-option">
-                                    <input
-                                        type="checkbox"
-                                        value={subCategory}
-                                        checked={selectedCategories.includes(subCategory)}
-                                        onChange={() => handleSubCategoryChange(subCategory)}
-                                    />
-                                    {subCategory}
-                                </label>
+            {/* ✅ 두 개의 카테고리를 나란히 배치 */}
+            <div className="category-container">
+                <div className="category-group">
+                    <button className="category-title" onClick={() => setFacultyDropdownOpen((prev) => !prev)}>
+                        {selectedFaculty || "Select Faculty"} ▼
+                    </button>
+                    {facultyDropdownOpen && (
+                        <div className="subcategory-list">
+                            {faculties.map((faculty) => (
+                                <div
+                                    key={faculty}
+                                    className={`category-option ${selectedFaculty === faculty ? "selected" : ""}`}
+                                    onClick={() => handleFacultyChange(faculty)}
+                                >
+                                    {faculty}
+                                </div>
                             ))}
                         </div>
+                    )}
+                </div>
+                {selectedFaculty && (
+                    <div className="category-group">
+                        <button className="category-title" onClick={() => setCoursesDropdownOpen((prev) => !prev)}>
+                            Select Courses ▼
+                        </button>
+                        {coursesDropdownOpen && (
+                            <div className="subcategory-list">
+                                {courses.map((course) => (
+                                    <label key={course} className="category-option">
+                                        <input
+                                            type="checkbox"
+                                            value={course}
+                                            checked={selectedCourses.includes(course)}
+                                            onChange={() => handleCourseChange(course)}
+                                        />
+                                        {course}
+                                    </label>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                ))}
+                )}
             </div>
 
+            {/* ✅ 로딩 & 에러 처리 */}
+            {loading ? <p>Loading timetable...</p> : error ? <p>{error}</p> : null}
+
+            {/* ✅ 타임테이블 */}
             <table className="timetable">
                 <thead>
                 <tr>
@@ -100,8 +141,9 @@ const TimeTable = () => {
                                     <div className="class-info-multiple">
                                         {timetableMap[day][time].map((cls, index) => (
                                             <div key={index} className="class-info">
-                                                <strong>{cls.className}</strong>
-                                                <p>{cls.location}</p>
+                                                <strong>{cls.courseCode}</strong>
+                                                <p>{cls.lecturer}</p>
+                                                <p>{cls.resourceCode}</p>
                                             </div>
                                         ))}
                                     </div>

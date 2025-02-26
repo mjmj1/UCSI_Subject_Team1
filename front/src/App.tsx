@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import TimeTable from "./components/TimeTable";
-import Calendar from "./components/Calendar";
+// import Calendar from "./components/Calendar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css";
@@ -31,7 +31,7 @@ const App = () => {
                         <TimeTable />
                     </div>
                     <div ref={calendarRef}>
-                        <Calendar />
+                        {/*<Calendar />*/}
                     </div>
                 </main>
                 <Footer />

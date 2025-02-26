@@ -88,6 +88,7 @@ def make_family_tables(df):
             FatherCode=row['FatherCode'],
             CourseCode=row['CourseCode'],
             Capacity=row['Capacity'],
+            Session=row['Session'],
         )
         for _, row in child_df.iterrows()
     ]

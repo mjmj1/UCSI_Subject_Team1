@@ -1,5 +1,5 @@
 import pandas as pd
-from api.models import ExceptionCourseOffer, FatherCourseOffer, ChildCourseOffer
+from api.models import ExceptionCourseOffer, FatherCourseOffer, ChildCourseOffer, AssignTable
 
 def add_exception_row(row: pd.Series):
     exception_row = ExceptionCourseOffer(
@@ -34,3 +34,19 @@ def add_child_row(row: pd.Series):
         Capacity=row['Capacity'],
     )
     child_row.save()
+
+def add_assign_row(row: pd.Series):
+    assign_row = AssignTable(
+        CourseCode=row['coursecode'],
+        ResourceCode=row['room'],
+        FacultyCode=row['facultyCode'],
+        Session=row['session'],
+        Lecturer=row['professor'],
+        CourseCapacity=row['capacity'],
+        RoomCapacity=row['room_capacity'],
+        DayOfWeek=row['day'],
+        StartTime=row['start_time'],
+        MinPerSession=row['MinPerSession'],
+    )
+
+    assign_row.save()

@@ -14,15 +14,14 @@ def make_resource_table():
 
     df = pd.read_excel(file_path)
 
+    df = add_room_tag(df)
+
     df.fillna({
         'Lecture': 'N',
         'Tutorial': 'N',
         'Lab': 'N',
+        'ETC': 'N',
     }, inplace=True)
-
-    df = add_room_tag(df)
-
-    print(df.head())
 
     data_list = []
 
@@ -34,12 +33,7 @@ def make_resource_table():
             Lecture=row['Lecture'],
             Tutorial=row['Tutorial'],
             Lab=row['Lab'],
-            Group=row['Group'],
-            Clinic=row['Clinic'],
-            PBL=row['PBL'],
-            Kitchen=row['Kitchen'],
-            Drawing=row['Drawing'],
-            Imus=row['iMus'],
+            ETC=row['ETC'],
         )
 
         data_list.append(data)
@@ -50,12 +44,7 @@ def make_resource_table():
 
 
 def add_room_tag(df):
-    df['iMus'] = df['Resource Code'].apply(lambda x: 'Y' if 'imus' in str(x).lower() else 'N')
-    df['Kitchen'] = df['Resource Code'].apply(lambda x: 'Y' if 'kitchen' in str(x).lower() else 'N')
-    df['PBL'] = df['Resource Code'].apply(lambda x: 'Y' if 'PBL' in str(x).lower() else 'N')
-
-    df['Drawing'] = None
-    df['Group'] = None
-    df['Clinic'] = None
-
+    keywords = ['imus', 'kitchen', 'pbl']
+    df['ETC'] = df['Resource Code'].apply(
+        lambda x: 'Y' if any(keyword in str(x).lower() for keyword in keywords) else 'N')
     return df

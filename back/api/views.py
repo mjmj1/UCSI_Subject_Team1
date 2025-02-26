@@ -2,12 +2,17 @@ from django.shortcuts import render
 
 from django.http import HttpResponse, JsonResponse
 
+from api.util.assignFinal import assign_table
 from api.util.resourceRoom import make_resource_table
 from api.util.courseOffer import make_course_tables
-from api.util.assignTT import get_time_table
 
 from api.models import AssignTable, FatherCourseOffer
 
+def home(request):
+    make_resource_table()
+    make_course_tables()
+    assign_table()
+    return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
 
 def make_resource(request):
     if request.method == 'GET':
@@ -26,9 +31,7 @@ def make_course(request):
 def make_assign_table(request):
     code = request.GET.get('facultyCode', None)
 
-    from api.util.assignSY import run
-
-    run()
+    assign_table()
 
     filtered_data = AssignTable.objects.filter(FacultyCode=code)
     return JsonResponse(list(filtered_data.values()), safe=False)

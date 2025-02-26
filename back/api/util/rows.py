@@ -1,5 +1,7 @@
 import pandas as pd
-from api.models import ExceptionCourseOffer, FatherCourseOffer, ChildCourseOffer, AssignTable
+from api.models import ExceptionCourseOffer, FatherCourseOffer, ChildCourseOffer, AssignTable, NotGeneratedCourseTable, \
+    NotGeneratedResourceTable
+
 
 def add_exception_row(row: pd.Series):
     exception_row = ExceptionCourseOffer(
@@ -50,3 +52,27 @@ def add_assign_row(row: pd.Series):
     )
 
     assign_row.save()
+
+def add_ng_course_row(row: pd.Series):
+    row = NotGeneratedCourseTable(
+        CourseCode=row['coursecode'],
+        FacultyCode=row['facultyCode'],
+        Capacity=row['capacity'],
+        MinPerSession=row['MinPerSession'],
+        Lecturer=row['professor'],
+    )
+
+    row.save()
+
+def add_ng_resource_row(row: pd.Series):
+    row = NotGeneratedResourceTable(
+        ResourceCode=row['ResourceCode'],
+        Description=row['Description'],
+        Capacity=row['Capacity'],
+        Lecture=row['Lecture'],
+        Tutorial=row['Tutorial'],
+        Lab=row['Lab'],
+        ETC=row['ETC'],
+    )
+
+    row.save()

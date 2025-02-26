@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import math
 
-from api.util.assignTT import get_father_course_data, get_resource_room_data
+from api.models import FatherCourseOffer, ChildCourseOffer
+from api.util.assignTT import get_father_course_data, get_resource_room_data, get_child_course_data
 from api.util.rows import add_assign_row
 
 
@@ -81,6 +82,7 @@ def initialize_population(size, course_df, days, times):
                 'start_time': new_time,
                 'end_time': new_time + session_duration,  # 종료 시간이 22시 이하로 유지됨
                 'MinPerSession': session_duration,
+                'CombineBy': '',
             })
 
             # 교수 및 Split_ID 스케줄 업데이트
@@ -167,6 +169,38 @@ def generate_timetable(course_df, rooms_df, days, times):
     print("✅ Timetable generation completed successfully!")
     return results
 
+def make_combine_by():
+    # 자식 데이터를 가져오는 함수 호출
+    child = get_child_course_data()
+
+    # 결과를 저장할 리스트
+    combine_by_list = []
+
+    # child course 테이블 순회
+    for _, row in child.iterrows():
+        father_code = row['FatherCode']
+        child_session = row['Session']
+
+        try:
+            child_session_split = child_session.split('/')
+            child_session_suffix = child_session_split[1] if len(child_session_split) > 1 else child_session_split[0]
+
+            father_courses = FatherCourseOffer.objects.filter(CourseCode=father_code)
+
+            for father_course in father_courses:
+                if child_session_suffix in father_course.Session:
+                    child_courses = ChildCourseOffer.objects.filter(FatherCode=father_course.CourseCode)
+
+                    combine_by_value = ", ".join(child_courses.values_list('CourseCode', flat=True))
+                    combine_by_list.append(combine_by_value)
+                else:
+                    combine_by_list.append('')
+        except FatherCourseOffer.DoesNotExist:
+            combine_by_list.append('')
+
+    return combine_by_list
+
+
 def run():
     df = get_father_course_data()
     rooms_df = get_resource_room_data()
@@ -191,6 +225,9 @@ def run():
     print(f"🔹 최종 - 사용되지 않은 강의실 개수: {len(unused_rooms)}")
     print(f"🔸 최종 - 배정되지 않은 강의 수: {len(unassigned_courses)}")
     print(final_timetable.columns)
+
+    combine_by_list = make_combine_by()
+    final_timetable['CombineBy'] = combine_by_list
 
     for _, row in final_timetable.iterrows():
         add_assign_row(row)

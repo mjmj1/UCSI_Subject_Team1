@@ -69,12 +69,26 @@ class AssignTable(models.Model):
     def __str__(self):
         return f"{self.ResourceCode} ({self.CourseCode})"
 
-class NotGeneratedTable(models.Model):
+class NotGeneratedCourseTable(models.Model):
     id = models.AutoField(primary_key=True)
     CourseCode = models.CharField(max_length=20)
     FacultyCode = models.CharField(max_length=20)
-    Session = models.CharField(max_length=255)
-    Reason = models.TextField()
+    Capacity = models.IntegerField()
+    MinPerSession = models.IntegerField()
+    Lecturer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Not Assigned: {self.CourseCode} ({self.Reason})"
+
+class NotGeneratedResourceTable(models.Model):
+    id = models.AutoField(primary_key=True)
+    ResourceCode = models.CharField(max_length=100)
+    Description = models.CharField(max_length=255)
+    Capacity = models.IntegerField()
+    Lecture = models.CharField(max_length=1)
+    Tutorial = models.CharField(max_length=1)
+    Lab = models.CharField(max_length=1)
+    ETC = models.CharField(max_length=1)
 
     def __str__(self):
         return f"Not Assigned: {self.CourseCode} ({self.Reason})"

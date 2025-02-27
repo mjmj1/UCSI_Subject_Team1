@@ -1,5 +1,9 @@
 # UCSI_Subject_Team1
 
+## 🚀 Project Execution Result  
+
+![Project Execution Result](https://github.com/user-attachments/assets/6384ef0f-aad1-488f-b7fd-c60d31204f9f)
+
 # 🚀🚀Super Easy Server Setup Guide !!
 
 If you're using Windows, it's recommended to use Git Bash.  
@@ -40,37 +44,33 @@ This will use the `docker-compose.yml` file to automatically configure Docker an
 Place the shared `.env` file inside the `back` folder.
 The `.env` file contains sensitive information that should not be uploaded to Git.
 
-### 6. 서버 실행 
+### 🚀 6. Start the Server
+Run the following commands to start the server:
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
+This setup process only needs to be done once after cloning the Git repository.
 
-위 코드를 전부 실행을 하면 서버가 시작됩니다.
-위 루틴은 처음 git clone 이후 한번만 실행하면 됩니다.
 
-이후 서버를 실행할 땐... 🤔
+after next run server... 🤔
 
-### etc. 서버 실행(위 과정을 모두 완료한 뒤)
+### etc. 🔄 After Initial Setup: Running the Server
+Once the initial setup is complete, you can start the server using:
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-6번 항목의 명령어를 실행해주면 서버가 실행됩니다.
-서버를 실행한 땐 꼭 docker가 실행되어 있어야 합니다.
+Note: Make sure Docker is running before starting the server.
 
-### etc2. docker 내의 DB에 DML을 사용하는 방법 !!! 🚀🚀
+### etc2. 🛠️ Accessing the Database Inside Docker
+To run DML commands (`SELECT`, `UPDATE`, `DELETE`, `INSERT`, etc.) inside the Dockerized database, use:
 ```
 docker exec -it back-db-1 psql -U postgres -d project_db
 ```
-위에 코드를 사용하면 docker 내 db에 접근하여 DML(select, update, delete, insert ...) 를 사용할 수 있습니다.
-
-
-## 🚀 Project Execution Result  
-
-![Project Execution Result](https://github.com/user-attachments/assets/6384ef0f-aad1-488f-b7fd-c60d31204f9f)
+And that's it! Your server should be up and running! 🚀
 
 
 

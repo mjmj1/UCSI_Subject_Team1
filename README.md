@@ -1,68 +1,77 @@
 # UCSI_Subject_Team1
 
-# 🚀🚀엄청나게 쉬운 서버 실행 방법 !!
+## 🚀 Project Execution Result  
 
+![Project Execution Result](https://github.com/user-attachments/assets/6384ef0f-aad1-488f-b7fd-c60d31204f9f)
 
-window의 경우, git bash를 사용하면 됩니다.
-### 0. 폴더 위치를 back으로 설정
-cd 커맨드를 통해 폴더 위치를 back에 위치시킵니다.
+# 🚀🚀Super Easy Server Setup Guide !!
 
-### 1. 가상환경 생성 💻
-```
+If you're using Windows, it's recommended to use Git Bash.  
+
+### 📂 0. Set the Folder Location to "back"  
+Use the `cd` command to navigate to the `back` folder.
+
+### 💻 1. Create a Virtual Environment  
+Run the following command in `cmd` to create a virtual environment:  
+```sh
 python -m venv venv
 ```
-위 명령어를 cmd에서 실행하고 가상환경을 생성합니다.
 
-### 2. 가상 환경 실행
+### ▶️ 2. Activate the Virtual Environment
 Mac/Linux
-```
+``` sh
 source venv/bin/activate
 ```
 window
-```
+``` cmd
 venv\Scripts\activate
 ```
-위 명령어를 cmd에서 실행하여 가상환경을 활성화합니다.
+Run the appropriate command in `cmd` to activate the virtual environment.
 
-### 3. 필요 패키지 다운로드
+### 📦 3. Install Required Packages
 ```
 pip install -r requirements.txt
 ```
 
-### 4. Docker 실행 🐋
+### 🐋 4. Run Docker
+First, ensure Docker is running. Then, execute the following command in `cmd`:
 ```
 docker-compose up -d
 ```
-docker를 실행한 후 위 명령어를 cmd에서 실행합니다.
-그러면 docker-compose.yml 파일을 통해서 자동으로 docker가 구성되고 postgreSql DB가 생성됩니다.
+This will use the `docker-compose.yml` file to automatically configure Docker and create a PostgreSQL database.
 
-### 5. .env 파일 위치
-공유받은 .env 파일을 back 안에 위치시킵니다.
-.env 파일을 git에 올라가면 안되는 정보들을 넣어둡니다.
+### 📁 5. Place the .env File
+Place the shared `.env` file inside the `back` folder.
+The `.env` file contains sensitive information that should not be uploaded to Git.
 
-### 6. 서버 실행 
+### 🚀 6. Start the Server
+Run the following commands to start the server:
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
+This setup process only needs to be done once after cloning the Git repository.
 
-위 코드를 전부 실행을 하면 서버가 시작됩니다.
-위 루틴은 처음 git clone 이후 한번만 실행하면 됩니다.
 
-이후 서버를 실행할 땐... 🤔
+after next run server... 🤔
 
-### etc. 서버 실행(위 과정을 모두 완료한 뒤)
+### etc. 🔄 After Initial Setup: Running the Server
+Once the initial setup is complete, you can start the server using:
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-6번 항목의 명령어를 실행해주면 서버가 실행됩니다.
-서버를 실행한 땐 꼭 docker가 실행되어 있어야 합니다.
+Note: Make sure Docker is running before starting the server.
 
-### etc2. docker 내의 DB에 DML을 사용하는 방법 !!! 🚀🚀
+### etc2. 🛠️ Accessing the Database Inside Docker
+To run DML commands (`SELECT`, `UPDATE`, `DELETE`, `INSERT`, etc.) inside the Dockerized database, use:
 ```
 docker exec -it back-db-1 psql -U postgres -d project_db
 ```
-위에 코드를 사용하면 docker 내 db에 접근하여 DML(select, update, delete, insert ...) 를 사용할 수 있습니다.
+And that's it! Your server should be up and running! 🚀
+
+
+
+

@@ -66,3 +66,12 @@ python manage.py runserver
 docker exec -it back-db-1 psql -U postgres -d project_db
 ```
 위에 코드를 사용하면 docker 내 db에 접근하여 DML(select, update, delete, insert ...) 를 사용할 수 있습니다.
+
+
+## 🚀 Project Execution Result  
+
+![Project Execution Result](https://github.com/user-attachments/assets/6384ef0f-aad1-488f-b7fd-c60d31204f9f)
+
+
+
+

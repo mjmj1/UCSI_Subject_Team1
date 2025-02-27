@@ -9,6 +9,12 @@ from api.util.courseOffer import make_course_tables
 from api.models import AssignTable, FatherCourseOffer
 
 def home(request):
+    # make_resource_table()
+    # make_course_tables()
+    # assign_table()
+    return JsonResponse({"message": "성공적으로 DB에 저장되었습니다."})
+
+def make(request):
     make_resource_table()
     make_course_tables()
     assign_table()

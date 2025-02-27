@@ -1,44 +1,44 @@
 # UCSI_Subject_Team1
 
-# 🚀🚀엄청나게 쉬운 서버 실행 방법 !!
+# 🚀🚀Super Easy Server Setup Guide !!
 
+If you're using Windows, it's recommended to use Git Bash.  
 
-window의 경우, git bash를 사용하면 됩니다.
-### 0. 폴더 위치를 back으로 설정
-cd 커맨드를 통해 폴더 위치를 back에 위치시킵니다.
+### 📂 0. Set the Folder Location to "back"  
+Use the `cd` command to navigate to the `back` folder.
 
-### 1. 가상환경 생성 💻
-```
+### 💻 1. Create a Virtual Environment  
+Run the following command in `cmd` to create a virtual environment:  
+```sh
 python -m venv venv
 ```
-위 명령어를 cmd에서 실행하고 가상환경을 생성합니다.
 
-### 2. 가상 환경 실행
+### ▶️ 2. Activate the Virtual Environment
 Mac/Linux
-```
+``` sh
 source venv/bin/activate
 ```
 window
-```
+``` cmd
 venv\Scripts\activate
 ```
-위 명령어를 cmd에서 실행하여 가상환경을 활성화합니다.
+Run the appropriate command in `cmd` to activate the virtual environment.
 
-### 3. 필요 패키지 다운로드
+### 📦 3. Install Required Packages
 ```
 pip install -r requirements.txt
 ```
 
-### 4. Docker 실행 🐋
+### 🐋 4. Run Docker
+First, ensure Docker is running. Then, execute the following command in `cmd`:
 ```
 docker-compose up -d
 ```
-docker를 실행한 후 위 명령어를 cmd에서 실행합니다.
-그러면 docker-compose.yml 파일을 통해서 자동으로 docker가 구성되고 postgreSql DB가 생성됩니다.
+This will use the `docker-compose.yml` file to automatically configure Docker and create a PostgreSQL database.
 
-### 5. .env 파일 위치
-공유받은 .env 파일을 back 안에 위치시킵니다.
-.env 파일을 git에 올라가면 안되는 정보들을 넣어둡니다.
+### 📁 5. Place the .env File
+Place the shared `.env` file inside the `back` folder.
+The `.env` file contains sensitive information that should not be uploaded to Git.
 
 ### 6. 서버 실행 
 ```

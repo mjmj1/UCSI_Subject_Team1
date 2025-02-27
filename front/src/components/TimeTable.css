@@ -75,6 +75,8 @@ button.category-title:hover {
     font-size: 14px;
     transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
     cursor: pointer;
+    align-items: center;
+    gap: 5px;
 }
 
 .category-option:first-child {
@@ -91,12 +93,15 @@ button.category-title:hover {
     display: none;
 }
 
-
-.category-option {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.category-label {
+    display: block;
+    color: #d55c5a;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    padding-left: 5px;
 }
+
 
 h2 {
     margin-bottom: 15px;

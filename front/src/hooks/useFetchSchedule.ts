@@ -13,9 +13,8 @@ const useFetchSchedule = () => {
                     "CFL", "FAS", "FBM", "FETBE", "FHTM", "FOMHS", "FOSSLA",
                     "FPS", "IASDA", "ICAD", "ICSDI", "SABE"
                 ];
-                // ✅ 하드코딩된 facultyCodes
                 const responses = await Promise.all(facultyCodes.map(code => fetchSchedule([code]))); // ✅ 각각 요청
-                const mergedData = responses.flat(); // ✅ 받은 데이터를 하나의 배열로 합침
+                const mergedData = responses.flat();
                 setSchedule(mergedData);
             } catch (err) {
                 setError("Failed to fetch schedule data.");
